@@ -1,0 +1,103 @@
+// Standard library for CG
+// The contents of this file will be automatically #included in a special
+// global scope before every CG input file
+
+typedef packed float4 float4x4[4];
+typedef packed float3 float4x3[4];
+typedef packed float2 float4x2[4];
+typedef packed float1 float4x1[4];
+typedef packed float4 float3x4[3];
+typedef packed float3 float3x3[3];
+typedef packed float2 float3x2[3];
+typedef packed float1 float3x1[3];
+typedef packed float4 float2x4[2];
+typedef packed float3 float2x3[2];
+typedef packed float2 float2x2[2];
+typedef packed float1 float2x1[2];
+typedef packed float4 float1x4[1];
+typedef packed float3 float1x3[1];
+typedef packed float2 float1x2[1];
+typedef packed float1 float1x1[1];
+
+// various useful library functions can be defined here, to make up
+// the standard library
+
+float dot(float1 a, float1 b) { return a.x*b.x; }
+float dot(float2 a, float2 b) { return a.x*b.x + a.y*b.y; }
+float dot(float3 a, float3 b) { return a.x*b.x + a.y*b.y + a.z*b.z; }
+float dot(float4 a, float4 b) { return a.x*b.x + a.y*b.y + a.z*b.z + a.w*b.w; }
+
+float2 mul(float2x2 m, float2 v) {
+    float2 rv;
+    rv.x = dot(m._m00_m01, v);
+    rv.y = dot(m._m10_m11, v);
+    return rv;
+}
+
+float3 mul(float3x3 m, float3 v) {
+    float3 rv;
+    rv.x = dot(m._m00_m01_m02, v);
+    rv.y = dot(m._m10_m11_m12, v);
+    rv.z = dot(m._m20_m21_m22, v);
+    return rv;
+}
+
+float4 mul(float4x4 m, float4 v) {
+    float4 rv;
+    rv.x = dot(m._m00_m01_m02_m03, v);
+    rv.y = dot(m._m10_m11_m12_m13, v);
+    rv.z = dot(m._m20_m21_m22_m23, v);
+    rv.w = dot(m._m30_m31_m32_m33, v);
+    return rv;
+}
+
+// things can be declared __internal, which the profile needs to handle
+// specially (usually by generating a special instruction)
+
+__internal float rsqrt(float x);
+
+float1 rsqrt(float1 x) {
+    return float1(rsqrt(x.x));
+}
+float2 rsqrt(float2 x) {
+    return float2(rsqrt(x.x), rsqrt(x.y));
+}
+float3 rsqrt(float3 x) {
+    return float3(rsqrt(x.x), rsqrt(x.y), rsqrt(x.z));
+}
+float4 rsqrt(float4 x) {
+    return float4(rsqrt(x.x), rsqrt(x.y), rsqrt(x.z), rsqrt(x.w));
+}
+
+// different profiles can have things defined for them specifically
+
+#ifdef PROFILE_SPECIAL
+
+__internal float sin(float x);
+
+float1 sin(float1 x) {
+    return float1(sin(x.x));
+}
+float2 sin(float2 x) {
+    return float2(sin(x.x), sin(x.y));
+}
+float3 sin(float3 x) {
+    return float3(sin(x.x), sin(x.y), sin(x.z));
+}
+float4 sin(float4 x) {
+    return float4(sin(x.x), sin(x.y), sin(x.z), sin(x.w));
+}
+
+#endif /* PROFILE_SPECIAL */
+
+float1 normalize(float1 v) { return rsqrt(dot(v, v)) * v; }
+float2 normalize(float2 v) { return rsqrt(dot(v, v)) * v; }
+float3 normalize(float3 v) { return rsqrt(dot(v, v)) * v; }
+float4 normalize(float4 v) { return rsqrt(dot(v, v)) * v; }
+
+float  max(float  a, float  b) { return a>b ? a : b; }
+float1 max(float1 a, float1 b) { return a>b ? a : b; }
+float2 max(float2 a, float2 b) { return a>b ? a : b; }
+float3 max(float3 a, float3 b) { return a>b ? a : b; }
+float4 max(float4 a, float4 b) { return a>b ? a : b; }
+

@@ -1,0 +1,58 @@
+//
+// Texture coordinate generation example
+//      calculate sphere map coordinates
+
+struct appdata {
+    float4 position : ATTRIB0;
+    float3 normal : ATTRIB1;
+};
+
+struct vf20 {
+    float4 HPOS : POSITION;
+    float4 COL0 : COLOR0;
+    float4 TEX0 : TEXCOORD0;
+};
+
+vf20 main(appdata I,
+          uniform float4x4 modelview_matrix,
+          uniform float4x4 projection_matrix,
+          uniform float3 lightdir,
+          uniform float3 lightcolor,
+          uniform float3 ambientcolor)
+{
+    vf20 O;
+    float3 n, u, r;
+    float4 v;
+    float m;
+    float3x3 m3;
+
+    // transform vertex to eye space
+    v = mul(modelview_matrix, I.position);
+
+    // calc the unit vector pointing from the origin to the vertex
+    u = normalize(v.xyz);
+
+    // transform normal to eye coordinates
+    // cannot cast matrices yet so assign to a temp to get a 3x3 matrix
+
+    m3._m00_m01_m02 = modelview_matrix._m00_m01_m02;
+    m3._m10_m11_m12 = modelview_matrix._m10_m11_m12;
+    m3._m20_m21_m22 = modelview_matrix._m20_m21_m22;
+    n = mul(m3, I.normal);
+
+    // calculate the reflection vector, r
+    r = u - 2*n * dot(n, u);
+
+    // calculate the texuture coordinates
+    r.z = r.z + 1;
+    m = 0.5f*rsqrt(dot(r, r));
+
+    O.TEX0.x = r.x*m + 0.5f;
+    O.TEX0.y = r.y*m + 0.5f;
+
+    // transform position to projection space
+    O.HPOS = mul(projection_matrix, v);
+
+    return O;
+} // main
+

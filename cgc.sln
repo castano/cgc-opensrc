@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cgc", "cgc.vcproj", "{B45F5F92-CFEE-493F-9370-333116927C14}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20FA5FAE-334F-4B47-BDFF-2FC14D11FDBC} = {20FA5FAE-334F-4B47-BDFF-2FC14D11FDBC}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tokenize", "tokenize.vcproj", "{20FA5FAE-334F-4B47-BDFF-2FC14D11FDBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B45F5F92-CFEE-493F-9370-333116927C14}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B45F5F92-CFEE-493F-9370-333116927C14}.Debug|Win32.Build.0 = Debug|Win32
+		{B45F5F92-CFEE-493F-9370-333116927C14}.Release|Win32.ActiveCfg = Release|Win32
+		{B45F5F92-CFEE-493F-9370-333116927C14}.Release|Win32.Build.0 = Release|Win32
+		{20FA5FAE-334F-4B47-BDFF-2FC14D11FDBC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{20FA5FAE-334F-4B47-BDFF-2FC14D11FDBC}.Debug|Win32.Build.0 = Debug|Win32
+		{20FA5FAE-334F-4B47-BDFF-2FC14D11FDBC}.Release|Win32.ActiveCfg = Debug|Win32
+		{20FA5FAE-334F-4B47-BDFF-2FC14D11FDBC}.Release|Win32.Build.0 = Debug|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

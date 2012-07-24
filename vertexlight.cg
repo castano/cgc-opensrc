@@ -1,0 +1,45 @@
+
+// vertex shader with per-vertex diffuse lighting for a single directional
+//   light + ambient
+//
+// written assuming that the lightcolor has been premultiplied by the
+// diffuse coefficient and that the ambientcolor has been premultiplied
+// by the ambient coefficient
+
+struct appdata {
+    float4 position : ATTRIB0;
+    float3 normal : ATTRIB1;
+    float4 color : ATTRIB2;
+};
+
+struct vf20 {
+    float4      HPOS : POSITION;
+    float4      COL0 : COLOR0;
+    float4      TEX0 : TEXCOORD0;
+};
+
+vf20 main(appdata I,
+          uniform float3x3 object_matrix,
+          uniform float4x4 objviewproj_matrix,
+          uniform float3 lightdir,
+          uniform float3 lightcolor,
+          uniform float3 ambientcolor)
+{
+    vf20 O;
+    float diffuse;
+
+    // transform vertices into projection space using the pre-multiplied matrix
+    O.HPOS = mul(objviewproj_matrix, I.position);
+
+    // transform the normal to world space, use the dot product to
+    // calculate the diffuse intensity, if facing away from the light
+    // make it 0
+
+    diffuse = max(0, dot(mul(object_matrix, I.normal), lightdir));
+
+    O.COL0.rgb = I.color.rgb * diffuse * lightcolor + ambientcolor;
+    O.COL0.a = I.color.a;
+
+    return O;
+} // main
+

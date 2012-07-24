@@ -1,0 +1,35 @@
+//
+// simple vertex program transforms vertices to projection space and
+// passes through color and texture
+
+struct appdata {
+    float4 position : ATTRIB0;
+    float4 color : ATTRIB1;
+    float4 texcoord : ATTRIB2;
+};
+
+struct vf20 {
+    float4      HPOS : POSITION;
+    float4      COL0 : COLOR0;
+    float4      TEX0 : TEXCOORD0;
+};
+
+vf20 main(appdata I,
+          uniform float3x3 object_matrix,
+          uniform float4x4 objviewproj_matrix,
+          uniform float3 lightdir,
+          uniform float3 lightcolor,
+          uniform float3 ambientcolor)
+{
+    vf20 O;
+    float diffuse;
+
+    // transform vertices into projection space using the pre-multiplied matrix
+    O.HPOS = mul(objviewproj_matrix, I.position);
+
+    O.COL0 = I.color;
+    O.TEX0 = I.texcoord;
+
+    return O;
+} // main
+
